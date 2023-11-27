@@ -20,3 +20,5 @@ Here's a synopsis
 - Bulk Email Functionality :
   Introduced a function named send_greeting_emails() to demonstrate multiple operations on collected data.
   Used the lists obtained from the Excel file to send bulk greeting emails.
+
+  In summary, this application combines web searching, Excel file creation, user interaction, data storage, and data manipulation functionalities. It allows users to input their information, stores it in an Excel file, retrieves email and phone lists, and even demonstrates a practical use case by sending bulk greeting emails.
