@@ -1,5 +1,7 @@
 # excel-file-handling-small-app-
-We've created a small application that utilizes the openpyxl module in Python for Excel file handling. Here's a synopsis 
+I've created a small application named Google-Summary-Portal that utilizes the openpyxl module in Python for Excel file handling. 
+
+Here's a synopsis 
 
 - Web Searching Function:
   Implemented a function called web_searching() using the Wikipedia module for searching information.
