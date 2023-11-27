@@ -1,0 +1,119 @@
+import wikipedia
+import openpyxl
+from openpyxl import Workbook
+import os
+import pyttsx3
+import smtplib
+from email.message import EmailMessage
+
+
+def web_searching():
+    # To search on the web using wikipedia module
+    command = input("Now search :")
+    response = wikipedia.summary(command)
+    print()
+    print(response)
+    print()
+    
+def create_excel_file():
+    # Create a new workbook and select the active sheet
+    workbk = Workbook()
+    sheet = workbk.active
+
+    # Set the column headings
+    sheet.append(["Names", "Emails", "Mobile Numbers"])
+
+    # Save the workbook to the specified file path
+    workbk.save("database_1.xlsx")
+
+def action():
+    # If this exist, then load it and if not create it
+    if os.path.exists("database_1.xlsx"):
+        workbook = openpyxl.load_workbook("database_1.xlsx")
+    else:
+        workbook = Workbook()
+        workbook.save("database_1.xlsx")
+    # Initialise the sheet     
+    sheet = workbook.active
+    
+    #Asking how many question have to be asked 
+    print("\t\t\tWelcome to your Google Summary Portal")
+    pyttsx3.speak("Welcome to your Google Summary Portal")
+    print()
+    number = int(input("How many questions you want to ask :"))
+    print()
+    pyttsx3.speak("Before going ahead, tell us about you")
+    print("Before asking, tell us about you :")
+    
+    Name = input("Enter your name : ")
+    Emails = input("Enter your Email id :")
+    Phone_number = input("Enter your number :")
+    
+    # Append the sheet with these datas
+    data = [Name, Emails, Phone_number]
+    sheet.append(data)
+    workbook.save("database_1.xlsx")
+    print()
+    pyttsx3.speak(f"Now you can ask your {number} query")
+    # Now run the web searching on a loop based on the number of question you want to ask
+    i=1
+    while i <= number:
+        print()
+        web_searching()
+        print()
+        if number > i:
+            print("Now ask other...")
+        i += 1
+        print()
+
+def Emails_list():
+    '''Code to retrieve all the emails from database file'''
+    wk_book = load_workbook("database_1.xlsx")
+    sheet_value = wk_book.active
+    max_row = sheet_value.max_row
+    
+    # Initialize an empty list to store the values
+    email_list = []
+    # Here the for loop starts from 2nd row and print all the rows of 2 columns
+    for i in range(2, max_row+1):
+        cell = sheet_value.cell(row=i, column=2)
+        email_list.append(cell.value)
+
+    # Return the list after the loop is complete
+    return email_list
+
+def Phone_list():
+    '''Code to retrieve all the phone numbers from database file'''
+    wk_book = load_workbook("database_1.xlsx")
+    sheet_value = wk_book.active
+    max_row = sheet_value.max_row
+    
+    # Initialize an empty list to store the values
+    phone_list = []
+    # Here the for loop starts from 2nd row and print all the rows of 2 columns
+    for i in range(2, max_row+1):
+        cell = sheet_value.cell(row=i, column=3)
+        phone_list.append(cell.value)
+
+    # Return the list after the loop is complete
+    return phone_list
+
+
+def send_greeting_mail():
+# retrieving all the emails from Email_list function and send the bulk email to them for marketing
+
+    reciever = Emails_list()
+    subject = "Welcome"
+    body = '''PLEASE LIKE AND SUBSCRIBE '''
+    for recepients in reciever:
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login("YOUR EMAIL", "kils ljmw twgp ****")  # this is the application password that we have generate for using gmail
+        em = EmailMessage()
+        em['From'] = "YOUR EMAIL"
+        em['To'] = recepients
+        em['subject'] = subject
+        em.set_content(body)
+        server.send_message(em)
+        print("Sent a mail")
+
