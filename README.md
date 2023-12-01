@@ -1,4 +1,4 @@
-# excel-file-handling-small-app-
+# OVERVIEW
 I've created a small application named Google-Summary-Portal that utilizes the openpyxl module in Python for Excel file handling. 
 
 Here's a synopsis 
